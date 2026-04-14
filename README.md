@@ -1,188 +1,186 @@
-# 选择.Skill (xuanze-skill)
+# 选择.Skill
 
-> 被动式智能决策辅助 Skill 模块 — 由宿主 LLM Agent 加载和编排
+> 「选择比努力更重要，但前提是你得有人帮你选。」
 
-选择.Skill 是一个遵循 Skill-as-Module 架构的 Python 模块，由宿主 Agent（如 Claude）通过 Python API 调用。Skill 专注于数据管理、Prompt 构建和响应解析，分类、联网搜索和 LLM 推理均由宿主 Agent 自身完成。
+你的个人决策参谋。不是通用 AI 的泛泛而谈，是基于你的画像、性格和历史偏好的个性化决策分析。
 
-## ✨ 功能特色
+基于 MBTI 人格模型、累积偏好评分算法和 CO-STAR Prompt 框架，
+为每一个「帮我选」的瞬间提供结构化的 Top 3 推荐报告。
+[看效果](#效果示例) · [安装](#安装) · [它能做什么](#它能做什么) · [项目结构](#仓库结构)
 
-- **Skill-as-Module 架构**：作为被动模块被宿主 Agent 加载，无 CLI、无内置 LLM 调用
-- **个性化推荐**：基于用户画像（MBTI、偏好标签、历史决策）组装分析指引 Prompt
-- **结构化报告**：Top 3 推荐选项、优劣势对比、风险提示、个性化建议
-- **偏好学习**：通过累积评分算法逐步建立偏好画像，越用越懂你
-- **多种可视化**（可选）：文本时间线、饼图、折线图、词云
-- **灵活导出**（可选）：支持 Markdown、PDF、PNG 格式
+---
 
-## ⚡ 快速开始（一键配置）
+## 效果示例
+
+### 问：帮我选一个大学专业，喜欢编程也对金融感兴趣，620分，想留在北京或上海
+
+```
+📊 决策报告
+分类：长期选择
+
+🥇 推荐 1：计算机科学与技术（评分：9.2）
+   💡 与你对编程的兴趣高度匹配，INTJ 人格特质（独立思考、逻辑严谨）
+      非常适合计算机领域的深度研究和系统设计。
+   ✅ 就业面广，薪资名列前茅，北京上海岗位资源丰富
+   ✅ 620分可冲刺北航、北理工等优质院校
+   ⚠️ 技术迭代快，需要持续学习
+   🚨 行业竞争日趋激烈，建议本科期间积累实习经验
+
+🥈 推荐 2：金融科技（FinTech）方向（评分：8.5）
+   💡 完美兼顾编程和金融的双重兴趣，近年来快速发展的交叉学科。
+   ✅ 融合计算机与金融，就业选择面更广
+   ⚠️ 部分院校课程体系尚不成熟
+   🚨 目前开设本科专业的院校有限，可考虑计算机辅修金融
+
+🥉 推荐 3：软件工程（评分：7.8）
+   💡 偏重工程实践，就业稳定性高，符合「追求稳定」的偏好标签。
+   ✅ 就业率高，岗位需求稳定
+   ⚠️ 理论深度不如计算机科学
+
+💡 个性化建议：
+结合你 INTJ 的人格特质和「追求稳定」「注重发展前景」的偏好标签，
+计算机科学是最匹配的首选。建议第一志愿冲刺北航/北理工，
+第二志愿考虑中央财经/上海财经的金融科技方向。
+```
+
+运用了用户画像匹配（INTJ → 计算机）、偏好标签加权（追求稳定 6.2 分）、历史决策参考
+
+### 问：选择困难，中午吃什么？麻辣烫还是沙拉还是日料？
+
+```
+📊 决策报告
+分类：短期选择
+
+🥇 推荐 1：日料（评分：8.5）
+   💡 兼顾健康和体验感，与你「注重健康」和「追求体验」的偏好都很匹配。
+   ✅ 食材新鲜，营养均衡，用餐体验感强
+   ⚠️ 价格相对较高，人均 50-80 元
+
+🥈 推荐 2：沙拉（评分：7.5）
+   💡 最符合「注重健康」的偏好标签，轻食低卡。
+   ✅ 热量低，出餐快，不耽误午休
+   ⚠️ 饱腹感可能不足，下午容易饿
+
+🥉 推荐 3：麻辣烫（评分：6.8）
+   💡 性价比高，可自选食材控制营养搭配。
+   ✅ 价格亲民，食材自选
+   ⚠️ 汤底油盐含量较高
+
+💡 个性化建议：
+你的「注重健康」偏好已确立（得分 5.5），作为 ENFP 你喜欢新鲜感，
+日料的丰富选择很适合你。上次你选了沙拉，今天换换口味试试日料吧 😊
+```
+
+运用了偏好标签评分（注重健康 5.5）、MBTI 性格匹配（ENFP → 多样性）、历史决策去重
+
+完整对话记录在 `examples/` 目录。
+
+
+**这不是 ChatGPT 套了个决策模板。** 每份报告都基于你的真实画像——MBTI 人格、偏好标签累积评分、历史决策记录。它不给你千篇一律的建议，它用你自己的数据帮你分析。
+
+---
+
+## 安装
 
 在你的 AI 编码工具（Cursor / Claude Code / Kiro / Codex 等）的对话框中直接输入：
 
 ```
 请帮我配置skill并在后续触发选择相关操作的时候查阅该skill：https://github.com/WhiteNightShadow/xuanze-skill
 ```
-初次加载需要用户输入信息建档，后续进行个性化分析
 
-AI 会自动完成下载、配置，并在后续决策相关任务中自动调用该 Skill。
+然后对 AI 说：
 
-> 💡 支持所有能读取 GitHub 仓库的 AI 编码工具，包括但不限于：
-> - **Cursor** — 在 Chat / Composer 中粘贴上述指令
-> - **Claude Code** — 在终端对话中直接输入
-> - **Kiro** — 在聊天框中输入即可
-> - **Codex / GPT** — 在对话框中输入，配合代码解释器使用
+```
+> 帮我选个周末去哪玩
+> 考研还是工作？
+> 中午吃什么，选择困难
+> 推荐一下适合我的笔记本电脑
+```
+
+| 工具 | 使用方式 |
+|------|---------|
+| **Cursor** | 在 Chat / Composer 中粘贴安装指令 |
+| **Claude Code** | 在终端对话中直接输入 |
+| **Kiro** | 在聊天框中输入即可 |
+| **Codex / GPT** | 在对话框中输入，配合代码解释器使用 |
 
 ### 配置后会发生什么？
 
-1. **首次使用**：AI 会引导你完成建档（MBTI 人格测试、基础信息采集等，均可选择跳过）
-2. **后续使用**：当你在对话中说出"帮我选"、"推荐一下"、"纠结中"等决策相关的话时，AI 会自动调用该 Skill，基于你的画像和历史偏好进行个性化分析
-3. **越用越懂你**：每次决策后自动更新偏好标签，推荐会越来越贴合你的口味
+1. **首次使用** — AI 引导你建档（MBTI 测试、基础信息采集，均可跳过）
+2. **后续使用** — 说出"帮我选"、"推荐一下"、"纠结中"等，自动触发决策分析
+3. **越用越懂你** — 每次决策后自动更新偏好标签，推荐越来越贴合你的口味
 
-## 📦 安装
+---
 
-### 环境要求
+## 它能做什么
 
-- Python 3.10+
+### 两种决策模式
 
-### 安装核心依赖
+| 模式 | 适用场景 | 特点 |
+|------|---------|------|
+| **长期选择** | 志愿填报、城市选择、职业规划、买房决策 | 联网搜索 + 多维分析 + 风险提示 |
+| **短期选择** | 午餐推荐、周末活动、电影挑选、购物选择 | 偏好驱动 + 轻松推荐 + 快速决策 |
 
-```bash
-pip install -r requirements.txt
+### 个性化引擎
+
+| 能力 | 说明 |
+|------|------|
+| **用户画像** | 年龄、城市、职业、爱好、家庭状况等 |
+| **人格评估** | 内置 MBTI 测试，也支持自定义输入星座、生肖等 |
+| **偏好学习** | 累积评分算法，每次决策自动提取标签并更新权重 |
+| **历史记忆** | 记录每次决策，避免重复推荐，参考过往偏好 |
+| **时间衰减** | 近期选择权重更高，偏好画像动态演化 |
+
+### 触发关键词
+
+```
+帮我选 · 该选哪个 · xx还是xx · 推荐一下 · 选择困难
+帮我决定 · 不知道选什么 · 纠结中 · 去哪里 · 吃什么 · 买哪个
 ```
 
-或使用 `pyproject.toml`：
+---
 
-```bash
-pip install .
-```
-
-安装可选的可视化/导出依赖：
-
-```bash
-pip install ".[viz]"
-```
-
-安装开发依赖：
-
-```bash
-pip install ".[dev]"
-```
-
-## 🚀 API 使用指南
-
-### 基本用法
-
-```python
-from xuanze_core import XuanzeSkill
-
-skill = XuanzeSkill()
-```
-
-### 1. 初始化（首次使用）
-
-```python
-skill.initialize()
-```
-
-### 2. Onboarding：保存用户画像
-
-```python
-# 保存基础信息
-skill.save_profile({
-    "age": 25,
-    "city": "北京",
-    "occupation": "软件工程师",
-    "hobbies": ["编程", "阅读"],
-})
-
-# 保存人格信息
-skill.save_personality({
-    "mbti_type": "INTJ",
-    "zodiac_sign": "天蝎座",
-})
-
-# 或使用内置 MBTI 测试
-questions = skill.get_quiz_questions()
-# Agent 在对话中逐题提问，收集答案后：
-mbti_result = skill.calculate_mbti({0: "I", 1: "N", 2: "T", 3: "J", ...})
-skill.save_personality({"mbti_type": mbti_result})
-```
-
-### 3. 决策流程
-
-```python
-# 构建分析指引 Prompt（自动加载画像、偏好、历史）
-prompt = skill.build_decision_prompt(
-    question="考研还是工作？",
-    decision_type="long_term",
-    research_summary="根据2024年数据，计算机硕士就业率95%...",
-)
-
-# Agent 基于 prompt 生成决策分析（JSON 格式）
-# agent_analysis = agent.generate(prompt)
-
-# 解析为结构化报告
-report = skill.parse_decision_response(
-    response='{"question_summary": "考研还是工作", ...}',
-    decision_type="long_term",
-)
-
-# 后处理：更新偏好评分 + 归档历史
-skill.finalize_decision(report)
-```
-
-### 4. 查询数据
-
-```python
-# 查询历史记录
-history = skill.get_history(decision_type="long_term", limit=5)
-
-# 获取偏好标签
-tags = skill.get_preference_tags()
-
-# 获取用户画像
-profile = skill.get_profile()
-
-# 获取相关历史
-related = skill.get_related_history("考研还是工作？")
-```
-
-## 🏗️ 项目结构
+## 仓库结构
 
 ```
 xuanze-skill/
-├── SKILL.md                  # Agent 编排指令文档
-├── README.md                 # 项目说明文档
-├── pyproject.toml            # 项目元数据与构建配置
-├── requirements.txt          # Python 依赖列表
-├── xuanze_core/             # 核心代码包
-│   ├── __init__.py           # 包导出
-│   ├── skill_api.py          # XuanzeSkill 统一 API 入口
+├── SKILL.md                  # Agent 编排指令文档（核心）
+├── README.md
+├── pyproject.toml
+├── requirements.txt
+├── xuanze_core/              # 核心代码包
+│   ├── skill_api.py          # 统一 API 入口
 │   ├── models.py             # Pydantic 数据模型
-│   ├── onboarding.py         # 首次引导模块（纯数据 API）
+│   ├── onboarding.py         # 首次引导（画像采集）
 │   ├── profile_manager.py    # 用户画像管理
-│   ├── decision_engine.py    # PromptBuilder + ResponseParser
+│   ├── decision_engine.py    # Prompt 构建 + 响应解析
 │   ├── preference_scorer.py  # 偏好评分算法
 │   ├── history.py            # 历史记录管理
-│   ├── visualizer.py         # 可视化模块（可选）
-│   └── exporter.py           # 导出模块（可选）
+│   ├── visualizer.py         # 可视化（可选）
+│   └── exporter.py           # 导出（可选）
 ├── prompts/                  # Prompt 模板
 │   ├── long_term.txt
 │   ├── short_term.txt
 │   └── mbti_quiz.json
-├── examples/                 # 示例文件
-│   ├── example_college.md
-│   └── example_lunch.md
+├── examples/                 # 效果示例
+│   ├── example_college.md    # 长期决策：高考志愿
+│   └── example_lunch.md      # 短期决策：午餐推荐
 └── tests/                    # 测试文件
 ```
 
-## 🛠️ 技术栈
+## 技术栈
 
-| 领域 | 技术方案 |
-|------|---------|
+| 领域 | 方案 |
+|------|------|
 | 数据校验 | Pydantic v2 |
-| 可视化（可选） | rich + matplotlib + wordcloud |
-| PDF 导出（可选） | fpdf2 |
+| Prompt 框架 | CO-STAR（Context-Objective-Style-Tone-Audience-Response） |
+| 偏好算法 | 累积评分 + 时间衰减 + 阈值确立 |
 | 历史存储 | JSONL 文件 |
+| 可视化（可选） | rich + matplotlib + wordcloud |
+| 导出（可选） | fpdf2（PDF）、Markdown、PNG |
 
-## 📄 许可证
+---
 
-MIT License
+## 许可证
+
+MIT — 随便用，随便改。
