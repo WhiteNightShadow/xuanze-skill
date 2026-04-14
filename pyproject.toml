@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "xuanze-skill"
+version = "0.1.0"
+description = "选择.Skill — 被动式智能决策辅助 Skill 模块，由宿主 LLM Agent 加载和编排"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "xuanze-skill contributors"},
+]
+keywords = ["decision", "llm", "agent", "skill", "选择"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "pydantic>=2.7.0,<3.0.0",
+]
+
+[project.optional-dependencies]
+viz = [
+    "rich>=13.7.0,<14.0.0",
+    "matplotlib>=3.8.0,<4.0.0",
+    "wordcloud>=1.9.0,<2.0.0",
+    "fpdf2>=2.7.0,<3.0.0",
+]
+dev = [
+    "pytest>=8.0.0,<9.0.0",
+    "hypothesis>=6.100.0,<7.0.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["xuanze_core*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

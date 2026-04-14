@@ -1,0 +1,124 @@
+{
+  "title": "MBTI 风格人格快速测试",
+  "description": "通过 12 道简单选择题，快速了解你的决策风格和人格倾向。",
+  "dimensions": {
+    "EI": { "name": "外向(E) vs 内向(I)", "description": "你的能量来源" },
+    "SN": { "name": "感觉(S) vs 直觉(N)", "description": "你获取信息的方式" },
+    "TF": { "name": "思考(T) vs 情感(F)", "description": "你做决策的方式" },
+    "JP": { "name": "判断(J) vs 感知(P)", "description": "你的生活方式偏好" }
+  },
+  "questions": [
+    {
+      "id": 1,
+      "dimension": "EI",
+      "text": "周末你更喜欢怎么度过？",
+      "options": [
+        { "label": "A", "text": "约朋友出去聚会、逛街或参加活动", "direction": "E" },
+        { "label": "B", "text": "在家看书、看剧或独处充电", "direction": "I" }
+      ]
+    },
+    {
+      "id": 2,
+      "dimension": "EI",
+      "text": "在一个陌生的社交场合，你通常会？",
+      "options": [
+        { "label": "A", "text": "主动和别人聊天，很快融入氛围", "direction": "E" },
+        { "label": "B", "text": "先观察一会儿，等别人来找你聊", "direction": "I" }
+      ]
+    },
+    {
+      "id": 3,
+      "dimension": "EI",
+      "text": "做一个重要决定时，你更倾向于？",
+      "options": [
+        { "label": "A", "text": "找朋友讨论，听听不同意见", "direction": "E" },
+        { "label": "B", "text": "自己安静想清楚再说", "direction": "I" }
+      ]
+    },
+    {
+      "id": 4,
+      "dimension": "SN",
+      "text": "买一件新东西时，你更关注什么？",
+      "options": [
+        { "label": "A", "text": "具体的参数、价格、用户评价", "direction": "S" },
+        { "label": "B", "text": "整体感觉、设计理念、未来可能性", "direction": "N" }
+      ]
+    },
+    {
+      "id": 5,
+      "dimension": "SN",
+      "text": "别人跟你描述一件事时，你更希望听到？",
+      "options": [
+        { "label": "A", "text": "具体的细节和事实", "direction": "S" },
+        { "label": "B", "text": "大致的概念和背后的含义", "direction": "N" }
+      ]
+    },
+    {
+      "id": 6,
+      "dimension": "SN",
+      "text": "面对一个新项目，你的第一反应是？",
+      "options": [
+        { "label": "A", "text": "先了解现有的经验和做法", "direction": "S" },
+        { "label": "B", "text": "先想想有没有全新的思路", "direction": "N" }
+      ]
+    },
+    {
+      "id": 7,
+      "dimension": "TF",
+      "text": "朋友向你倾诉烦恼时，你更倾向于？",
+      "options": [
+        { "label": "A", "text": "帮 ta 分析问题，给出解决方案", "direction": "T" },
+        { "label": "B", "text": "先安慰 ta 的情绪，表示理解", "direction": "F" }
+      ]
+    },
+    {
+      "id": 8,
+      "dimension": "TF",
+      "text": "在团队中出现分歧时，你更看重？",
+      "options": [
+        { "label": "A", "text": "哪个方案逻辑上更合理、效率更高", "direction": "T" },
+        { "label": "B", "text": "大家的感受和团队的和谐", "direction": "F" }
+      ]
+    },
+    {
+      "id": 9,
+      "dimension": "TF",
+      "text": "选择工作时，你更看重？",
+      "options": [
+        { "label": "A", "text": "薪资待遇、发展前景等客观条件", "direction": "T" },
+        { "label": "B", "text": "工作氛围、同事关系等主观感受", "direction": "F" }
+      ]
+    },
+    {
+      "id": 10,
+      "dimension": "JP",
+      "text": "出去旅行时，你更喜欢？",
+      "options": [
+        { "label": "A", "text": "提前做好详细攻略和行程安排", "direction": "J" },
+        { "label": "B", "text": "走到哪算哪，随性探索", "direction": "P" }
+      ]
+    },
+    {
+      "id": 11,
+      "dimension": "JP",
+      "text": "面对 deadline，你通常是？",
+      "options": [
+        { "label": "A", "text": "提前规划，按部就班完成", "direction": "J" },
+        { "label": "B", "text": "灵感来了再说，最后冲刺搞定", "direction": "P" }
+      ]
+    },
+    {
+      "id": 12,
+      "dimension": "JP",
+      "text": "你的桌面/房间通常是？",
+      "options": [
+        { "label": "A", "text": "整整齐齐，东西都有固定位置", "direction": "J" },
+        { "label": "B", "text": "有点乱但我知道东西在哪", "direction": "P" }
+      ]
+    }
+  ],
+  "scoring": {
+    "method": "majority",
+    "description": "每个维度统计两个方向的选择次数，多数方向即为该维度结果。四个维度组合得出 MBTI 类型。"
+  }
+}
