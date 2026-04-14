@@ -19,8 +19,8 @@
 
 ```
 请帮我配置skill并在后续触发选择相关操作的时候查阅该skill：https://github.com/WhiteNightShadow/xuanze-skill
-初次加载需要用户输入信息建档，后续进行个性化分析
 ```
+初次加载需要用户输入信息建档，后续进行个性化分析
 
 AI 会自动完成下载、配置，并在后续决策相关任务中自动调用该 Skill。
 
